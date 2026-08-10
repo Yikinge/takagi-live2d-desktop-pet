@@ -47,7 +47,13 @@ Windows 与 macOS 共用同一套 Vue、Live2D 模型、叠加图和动画逻辑
 e4e7bc0ba2082689f19b59f27a0df55cf1fa2ef47013d328adeec456f168e60f
 ```
 
-Windows 安装包会附带独立的 `SHA256SUMS-windows.txt`。
+当前 Windows 安装程序 `高木同学桌宠_0.1.0_x64-setup.exe` 的 SHA-256：
+
+```text
+3d8ae601535f728297786e2a9c32086ac0bf89dcf65560e4e1509aa953c29068
+```
+
+Windows 安装包同时附带 UTF-8 编码的 `SHA256SUMS-windows.txt`。
 
 ## macOS 安装与使用
 
