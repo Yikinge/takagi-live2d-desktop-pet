@@ -27,8 +27,8 @@
 
 请在仓库的 **Releases** 页面选择对应系统：
 
-- macOS Apple Silicon：`高木同学桌宠_0.1.0_macos-arm64.zip`
-- Windows 10/11 x64：`高木同学桌宠_0.1.0_x64-setup.exe`
+- macOS Apple Silicon：`Takagi-Live2D-Desktop-Pet_0.1.0_macos-arm64.zip`
+- Windows 10/11 x64：`Takagi-Live2D-Desktop-Pet_0.1.0_windows-x64-setup.exe`
 
 ## macOS 使用方法
 
