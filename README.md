@@ -3,10 +3,10 @@
 一个支持 macOS 与 Windows 的非官方同人桌宠。角色会眨眼、看向鼠标，并根据真实键盘和鼠标操作做出动作。
 
 <p align="center">
-  <img src="docs/screenshots/demo.gif" alt="高木同学桌宠键盘互动演示" width="420">
+  <img src="docs/screenshots/demo.gif" alt="高木同学桌宠鼠标与键盘互动演示" width="420">
 </p>
 
-<p align="center"><sub>待机及 Q / W / T 键位互动循环演示</sub></p>
+<p align="center"><sub>待机、鼠标左右跟随及 Q / W / T 键位互动循环演示</sub></p>
 
 ## 效果预览
 
