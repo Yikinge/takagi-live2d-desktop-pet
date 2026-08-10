@@ -2,7 +2,11 @@
 
 一个支持 macOS 与 Windows 的非官方同人桌宠。角色会眨眼、看向鼠标，并根据真实键盘和鼠标操作做出动作。
 
-![待机效果](docs/screenshots/idle.png)
+<p align="center">
+  <img src="docs/screenshots/demo.gif" alt="高木同学桌宠键盘互动演示" width="420">
+</p>
+
+<p align="center"><sub>待机及 Q / W / T 键位互动循环演示</sub></p>
 
 ## 效果预览
 
@@ -10,9 +14,11 @@
 
 | Q 键 | W 键 | T 键 |
 | --- | --- | --- |
-| ![Q 键交互](docs/screenshots/key-q.png) | ![W 键交互](docs/screenshots/key-w.png) | ![T 键交互](docs/screenshots/key-t.png) |
+| <img src="docs/screenshots/key-q.png" alt="Q 键交互" width="220"> | <img src="docs/screenshots/key-w.png" alt="W 键交互" width="220"> | <img src="docs/screenshots/key-t.png" alt="T 键交互" width="220"> |
 
-![设置窗口](docs/screenshots/settings.png)
+<p align="center">
+  <img src="docs/screenshots/settings.png" alt="设置窗口" width="420">
+</p>
 
 ## 主要功能
 
