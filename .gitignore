@@ -6,6 +6,7 @@ src-tauri/target/
 art/processed/
 release/
 legacy-local/
+PROJECT_GUIDE_LOCAL.md
 rollback-tests/
 art/archive/
 art/concepts/
