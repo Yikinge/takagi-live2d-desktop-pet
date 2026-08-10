@@ -1,0 +1,67 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "高木同学桌宠",
+  "version": "../package.json",
+  "identifier": "studio.takagi.desktop-pet",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://127.0.0.1:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "macOSPrivateApi": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "高木同学桌宠",
+        "width": 460,
+        "height": 580,
+        "minWidth": 340,
+        "minHeight": 450,
+        "transparent": true,
+        "decorations": false,
+        "shadow": false,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "backgroundThrottling": "disabled",
+        "resizable": true,
+        "maximizable": false,
+        "acceptFirstMouse": true,
+        "center": true
+      },
+      {
+        "label": "settings",
+        "title": "高木同学桌宠设置",
+        "url": "index.html?window=settings",
+        "width": 430,
+        "height": 690,
+        "minWidth": 390,
+        "minHeight": 560,
+        "visible": false,
+        "transparent": false,
+        "decorations": true,
+        "shadow": true,
+        "alwaysOnTop": false,
+        "skipTaskbar": false,
+        "resizable": true,
+        "maximizable": false,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' ipc: http://ipc.localhost; font-src 'self' data:; img-src 'self' data: blob:; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-src 'none'; frame-ancestors 'none'; media-src 'none'",
+      "devCsp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "category": "Entertainment",
+    "shortDescription": "会跟着键盘互动的 Live2D 桌宠",
+    "longDescription": "一个以键盘与鼠标操作驱动动作、表情和台词的跨平台 Live2D 桌宠。",
+    "targets": ["app"],
+    "macOS": {
+      "signingIdentity": "-"
+    }
+  }
+}

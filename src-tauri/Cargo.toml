@@ -1,0 +1,26 @@
+[package]
+name = "takagi-desktop-pet"
+version = "0.1.0"
+description = "A playful Live2D desktop pet"
+authors = ["Takagi Desktop Pet contributors"]
+edition = "2021"
+
+[lib]
+name = "takagi_desktop_pet_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["macos-private-api", "tray-icon"] }
+tauri-plugin-global-shortcut = "2"
+tauri-plugin-autostart = "2"
+tauri-plugin-window-state = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rdev = { path = "vendor/rdev" }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+core-foundation = "0.10"
+core-graphics = { version = "0.19", features = ["highsierra"] }

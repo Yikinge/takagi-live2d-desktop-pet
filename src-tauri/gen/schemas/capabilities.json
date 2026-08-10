@@ -1,0 +1,1 @@
+{"main-capability":{"identifier":"main-capability","description":"Permissions used by the desktop pet window","local":true,"windows":["main","settings"],"permissions":["core:event:allow-listen","core:event:allow-unlisten","core:window:allow-start-dragging"]}}

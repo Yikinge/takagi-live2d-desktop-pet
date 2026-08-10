@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Takagi Live2D parameter map",
+  "type": "object",
+  "required": [
+    "version",
+    "model",
+    "coordinateConvention",
+    "runtime",
+    "parameters",
+    "eventMappings",
+    "expressions",
+    "motions"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "coordinateConvention": {
+      "type": "object"
+    },
+    "runtime": {
+      "type": "object"
+    },
+    "parameters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "min",
+          "max",
+          "default",
+          "smoothingMs",
+          "returnMs",
+          "priority",
+          "driver"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^Param"
+          },
+          "min": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          },
+          "default": {
+            "type": "number"
+          },
+          "smoothingMs": {
+            "type": "number",
+            "minimum": 0
+          },
+          "returnMs": {
+            "type": "number",
+            "minimum": 0
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "driver": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "eventMappings": {
+      "type": "object"
+    },
+    "expressions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "motions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false
+}

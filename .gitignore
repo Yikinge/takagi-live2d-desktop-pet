@@ -1,0 +1,16 @@
+node_modules/
+dist/
+target/
+src-tauri/target/
+.venv-art/
+art/processed/
+release/
+legacy-local/
+rollback-tests/
+art/archive/
+art/concepts/
+art/live2d/
+art/qa/
+art/see-through/
+.DS_Store
+*.log

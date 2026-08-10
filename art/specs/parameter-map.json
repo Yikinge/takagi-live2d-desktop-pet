@@ -1,0 +1,387 @@
+{
+  "$schema": "./parameter-map.schema.json",
+  "version": 1,
+  "model": "Takagi",
+  "coordinateConvention": {
+    "left": "screen-left",
+    "right": "screen-right",
+    "notes": "screen_left_hand is the only keyboard hand. screen_right_hand is the only mouse hand."
+  },
+  "runtime": {
+    "updateRateHz": 60,
+    "highFrequencyMode": "direct-parameter",
+    "longActionMode": "motion3",
+    "expressionMode": "exp3"
+  },
+  "parameters": [
+    {
+      "id": "ParamAngleX",
+      "min": -30,
+      "max": 30,
+      "default": 0,
+      "smoothingMs": 180,
+      "returnMs": 520,
+      "priority": 30,
+      "driver": "idle-and-pointer"
+    },
+    {
+      "id": "ParamAngleY",
+      "min": -30,
+      "max": 30,
+      "default": 0,
+      "smoothingMs": 180,
+      "returnMs": 520,
+      "priority": 30,
+      "driver": "idle-and-pointer"
+    },
+    {
+      "id": "ParamAngleZ",
+      "min": -30,
+      "max": 30,
+      "default": 0,
+      "smoothingMs": 240,
+      "returnMs": 700,
+      "priority": 20,
+      "driver": "idle"
+    },
+    {
+      "id": "ParamBodyAngleX",
+      "min": -10,
+      "max": 10,
+      "default": 0,
+      "smoothingMs": 260,
+      "returnMs": 760,
+      "priority": 20,
+      "driver": "idle-and-pointer"
+    },
+    {
+      "id": "ParamBodyAngleY",
+      "min": -10,
+      "max": 10,
+      "default": 0,
+      "smoothingMs": 260,
+      "returnMs": 760,
+      "priority": 20,
+      "driver": "idle"
+    },
+    {
+      "id": "ParamBodyAngleZ",
+      "min": -10,
+      "max": 10,
+      "default": 0,
+      "smoothingMs": 320,
+      "returnMs": 900,
+      "priority": 20,
+      "driver": "idle"
+    },
+    {
+      "id": "ParamEyeLOpen",
+      "min": 0,
+      "max": 1,
+      "default": 1,
+      "smoothingMs": 45,
+      "returnMs": 75,
+      "priority": 60,
+      "driver": "blink-expression"
+    },
+    {
+      "id": "ParamEyeROpen",
+      "min": 0,
+      "max": 1,
+      "default": 1,
+      "smoothingMs": 45,
+      "returnMs": 75,
+      "priority": 60,
+      "driver": "blink-expression"
+    },
+    {
+      "id": "ParamEyeBallX",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 90,
+      "returnMs": 380,
+      "priority": 45,
+      "driver": "pointer"
+    },
+    {
+      "id": "ParamEyeBallY",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 90,
+      "returnMs": 380,
+      "priority": 45,
+      "driver": "pointer"
+    },
+    {
+      "id": "ParamBrowLY",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 120,
+      "returnMs": 360,
+      "priority": 55,
+      "driver": "expression"
+    },
+    {
+      "id": "ParamBrowRY",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 120,
+      "returnMs": 360,
+      "priority": 55,
+      "driver": "expression"
+    },
+    {
+      "id": "ParamBrowLForm",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 120,
+      "returnMs": 360,
+      "priority": 55,
+      "driver": "expression"
+    },
+    {
+      "id": "ParamBrowRForm",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 120,
+      "returnMs": 360,
+      "priority": 55,
+      "driver": "expression"
+    },
+    {
+      "id": "ParamMouthForm",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 90,
+      "returnMs": 300,
+      "priority": 60,
+      "driver": "expression"
+    },
+    {
+      "id": "ParamMouthOpenY",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 70,
+      "returnMs": 220,
+      "priority": 60,
+      "driver": "expression-and-motion"
+    },
+    {
+      "id": "ParamCheek",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 180,
+      "returnMs": 650,
+      "priority": 50,
+      "driver": "expression"
+    },
+    {
+      "id": "ParamBreath",
+      "min": 0,
+      "max": 1,
+      "default": 0.5,
+      "smoothingMs": 500,
+      "returnMs": 1200,
+      "priority": 10,
+      "driver": "idle"
+    },
+    {
+      "id": "ParamHairFront",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 160,
+      "returnMs": 420,
+      "priority": 15,
+      "driver": "physics-output"
+    },
+    {
+      "id": "ParamHairSide",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 190,
+      "returnMs": 520,
+      "priority": 15,
+      "driver": "physics-output"
+    },
+    {
+      "id": "ParamHairBack",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 190,
+      "returnMs": 520,
+      "priority": 15,
+      "driver": "physics-output"
+    },
+    {
+      "id": "ParamKeyHandZone",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 55,
+      "returnMs": 240,
+      "priority": 90,
+      "driver": "keyboard"
+    },
+    {
+      "id": "ParamKeyPress",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 22,
+      "returnMs": 105,
+      "priority": 100,
+      "driver": "keyboard"
+    },
+    {
+      "id": "ParamSpacePress",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 26,
+      "returnMs": 145,
+      "priority": 105,
+      "driver": "keyboard"
+    },
+    {
+      "id": "ParamEnterPress",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 30,
+      "returnMs": 190,
+      "priority": 105,
+      "driver": "keyboard"
+    },
+    {
+      "id": "ParamBackspacePress",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 28,
+      "returnMs": 165,
+      "priority": 105,
+      "driver": "keyboard"
+    },
+    {
+      "id": "ParamMouseHandX",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 58,
+      "returnMs": 260,
+      "priority": 90,
+      "driver": "mouse"
+    },
+    {
+      "id": "ParamMouseHandY",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 58,
+      "returnMs": 260,
+      "priority": 90,
+      "driver": "mouse"
+    },
+    {
+      "id": "ParamMouseLeftClick",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 18,
+      "returnMs": 95,
+      "priority": 110,
+      "driver": "mouse"
+    },
+    {
+      "id": "ParamMouseRightClick",
+      "min": 0,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 18,
+      "returnMs": 95,
+      "priority": 110,
+      "driver": "mouse"
+    },
+    {
+      "id": "ParamMouseWheel",
+      "min": -1,
+      "max": 1,
+      "default": 0,
+      "smoothingMs": 20,
+      "returnMs": 125,
+      "priority": 105,
+      "driver": "mouse"
+    }
+  ],
+  "eventMappings": {
+    "keyboard.left": {
+      "ParamKeyHandZone": -1,
+      "ParamKeyPress": 1
+    },
+    "keyboard.center": {
+      "ParamKeyHandZone": 0,
+      "ParamKeyPress": 1
+    },
+    "keyboard.right": {
+      "ParamKeyHandZone": 0.6,
+      "ParamKeyPress": 1
+    },
+    "keyboard.space": {
+      "ParamKeyHandZone": 0,
+      "ParamSpacePress": 1
+    },
+    "keyboard.enter": {
+      "ParamKeyHandZone": 1,
+      "ParamEnterPress": 1
+    },
+    "keyboard.backspace": {
+      "ParamKeyHandZone": 0.8,
+      "ParamBackspacePress": 1
+    },
+    "mouse.move": [
+      "ParamMouseHandX",
+      "ParamMouseHandY"
+    ],
+    "mouse.left": {
+      "ParamMouseLeftClick": 1
+    },
+    "mouse.right": {
+      "ParamMouseRightClick": 1
+    },
+    "mouse.wheelUp": {
+      "ParamMouseWheel": 1
+    },
+    "mouse.wheelDown": {
+      "ParamMouseWheel": -1
+    }
+  },
+  "expressions": [
+    "Neutral",
+    "TeaseSmile",
+    "Wink",
+    "Smug",
+    "Surprised",
+    "Blush",
+    "Sleepy"
+  ],
+  "motions": [
+    "Idle",
+    "Tease",
+    "Poke",
+    "Surprised",
+    "Sleep",
+    "WakeUp"
+  ]
+}
