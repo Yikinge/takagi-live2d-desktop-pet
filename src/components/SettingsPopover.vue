@@ -16,6 +16,7 @@ const props = defineProps<{
   listenerState: ListenerState
   modelDiagnostics: ModelDiagnostic[]
   modelStatus: string
+  positionLocked: boolean
   settings: PetSettings
   showInteractionTests: boolean
   showKeyBubblePreview: boolean
@@ -28,6 +29,7 @@ const emit = defineEmits<{
   demoMouse: [action: MouseDemo]
   recheckPermissions: []
   previewKeyBubble: []
+  setPositionLocked: [locked: boolean]
   update: [settings: PetSettings]
 }>()
 
@@ -106,12 +108,16 @@ function patch(current: PetSettings, value: Partial<PetSettings>) {
     <label class="setting-row">
       <span>
         <strong>桌宠鼠标穿透</strong>
-        <small>每次启动默认开启，也可从菜单栏切换</small>
+        <small>
+          {{ positionLocked
+            ? '每次启动默认开启，也可从菜单栏切换'
+            : '移动模式会临时关闭，固定后自动恢复' }}
+        </small>
       </span>
       <input
         type="checkbox"
         :checked="settings.clickThrough"
-        :disabled="!desktopMode"
+        :disabled="!desktopMode || !positionLocked"
         @change="patch(settings, { clickThrough: ($event.target as HTMLInputElement).checked })"
       />
     </label>
@@ -198,12 +204,24 @@ function patch(current: PetSettings, value: Partial<PetSettings>) {
       </button>
     </div>
 
-    <div class="memory-row">
-      <span aria-hidden="true">⌖</span>
+    <div class="memory-row" :class="{ 'is-moving': !positionLocked }">
+      <span aria-hidden="true">{{ positionLocked ? '⌖' : '✥' }}</span>
       <div>
-        <strong>窗口位置记忆已启用</strong>
-        <small>退出时保存位置，下次启动自动恢复</small>
+        <strong>{{ positionLocked ? '桌宠位置已固定' : '正在移动桌宠位置' }}</strong>
+        <small>
+          {{ positionLocked
+            ? '点击移动后拖拽桌宠，固定时自动恢复鼠标穿透'
+            : '拖到任意位置，然后点击右侧按钮固定' }}
+        </small>
       </div>
+      <button
+        class="text-button position-button"
+        type="button"
+        :disabled="!desktopMode"
+        @click="emit('setPositionLocked', !positionLocked)"
+      >
+        {{ positionLocked ? '移动位置' : '固定当前位置' }}
+      </button>
     </div>
 
     <section

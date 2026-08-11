@@ -580,6 +580,46 @@ button {
   pointer-events: none;
 }
 
+.position-drag-surface {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  gap: 4px;
+  padding: 0;
+  place-content: center;
+  border: 2px dashed rgb(211 114 99 / 62%);
+  border-radius: 22px;
+  background: transparent;
+  color: #70443e;
+  cursor: grab;
+  text-align: center;
+}
+
+.position-drag-surface:active {
+  cursor: grabbing;
+}
+
+.position-drag-surface span,
+.position-drag-surface small {
+  width: max-content;
+  margin: 0 auto;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgb(255 249 242 / 92%);
+  box-shadow: 0 6px 18px rgb(84 43 37 / 14%);
+}
+
+.position-drag-surface span {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.position-drag-surface small {
+  color: #96716b;
+  font-size: 9px;
+}
+
 .settings-window-shell {
   width: 100%;
   height: 100%;
@@ -807,8 +847,12 @@ input[type='range'] {
 }
 
 .memory-row {
-  grid-template-columns: 18px 1fr;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
   margin: 0 0 10px;
+}
+
+.memory-row.is-moving {
+  background: #ffe7dc;
 }
 
 .memory-row > span {
@@ -819,6 +863,11 @@ input[type='range'] {
 .memory-row strong,
 .section-heading strong {
   font-size: 11px;
+}
+
+.position-button {
+  align-self: center;
+  white-space: nowrap;
 }
 
 .interaction-tests {

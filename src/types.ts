@@ -174,6 +174,7 @@ export interface ShortcutStatusPayload {
 export interface DesktopStateSnapshot {
   interactionPaused: boolean
   clickThrough: boolean
+  positionLocked: boolean
   alwaysOnTop: boolean
   visible: boolean
   shortcut: ShortcutStatusPayload

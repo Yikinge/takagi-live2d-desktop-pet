@@ -362,6 +362,17 @@ async function applyPersistedDesktopPreferences() {
       <small>COMBO</small>
     </div>
 
+    <button
+      v-if="!bridge.desktopState.value.positionLocked"
+      class="position-drag-surface"
+      type="button"
+      aria-label="拖动桌宠窗口"
+      @pointerdown.left.prevent="bridge.startDragging"
+    >
+      <span>拖动桌宠到任意位置</span>
+      <small>完成后请在设置窗口中点击“固定当前位置”</small>
+    </button>
+
     <div v-if="bridge.error.value" class="mode-hint">
       {{ bridge.error.value }}
     </div>

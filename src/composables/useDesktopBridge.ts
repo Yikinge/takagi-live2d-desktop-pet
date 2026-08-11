@@ -32,6 +32,7 @@ export const DESKTOP_COMMANDS = {
   getListenerStatus: 'get_listener_status',
   setInteractionPaused: 'set_interaction_paused',
   setClickThrough: 'set_click_through',
+  setPositionLocked: 'set_position_locked',
   setAlwaysOnTop: 'set_always_on_top',
   setMainWindowVisible: 'set_main_window_visible',
   showMainWindow: 'show_main_window',
@@ -64,6 +65,7 @@ function defaultDesktopState(): DesktopStateSnapshot {
   return {
     interactionPaused: false,
     clickThrough: false,
+    positionLocked: true,
     alwaysOnTop: true,
     visible: true,
     shortcut: defaultShortcutState(),
@@ -424,7 +426,23 @@ export function useDesktopBridge(onDeviceEvent: (event: DeviceEvent) => void) {
     return updateDesktopState(
       DESKTOP_COMMANDS.setClickThrough,
       { enabled },
-      () => ({ ...desktopState.value, clickThrough: enabled }),
+      () => ({
+        ...desktopState.value,
+        clickThrough: enabled,
+        positionLocked: enabled ? true : desktopState.value.positionLocked,
+      }),
+    )
+  }
+
+  async function setPositionLocked(locked: boolean) {
+    return updateDesktopState(
+      DESKTOP_COMMANDS.setPositionLocked,
+      { locked },
+      () => ({
+        ...desktopState.value,
+        positionLocked: locked,
+        clickThrough: locked,
+      }),
     )
   }
 
@@ -603,6 +621,7 @@ export function useDesktopBridge(onDeviceEvent: (event: DeviceEvent) => void) {
     setClickThrough,
     setInteractionPaused,
     setMainWindowVisible,
+    setPositionLocked,
     settingsRevision,
     shortcutState,
     showMainWindow,
@@ -727,6 +746,7 @@ function parseDesktopState(
     !isRecord(payload)
     || typeof payload.interactionPaused !== 'boolean'
     || typeof payload.clickThrough !== 'boolean'
+    || typeof payload.positionLocked !== 'boolean'
     || typeof payload.alwaysOnTop !== 'boolean'
     || typeof payload.visible !== 'boolean'
   ) return undefined
@@ -736,6 +756,7 @@ function parseDesktopState(
   return {
     interactionPaused: payload.interactionPaused,
     clickThrough: payload.clickThrough,
+    positionLocked: payload.positionLocked,
     alwaysOnTop: payload.alwaysOnTop,
     visible: payload.visible,
     shortcut,

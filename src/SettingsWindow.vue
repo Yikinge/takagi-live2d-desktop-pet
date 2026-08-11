@@ -47,6 +47,11 @@ async function updateSettings(next: PetSettings) {
   await bridge.notifySettingsUpdated()
 }
 
+async function setPositionLocked(locked: boolean) {
+  await bridge.setPositionLocked(locked)
+  syncDesktopState()
+}
+
 watch(bridge.desktopState, () => {
   if (desktopReady.value) syncDesktopState()
 }, { deep: true })
@@ -69,6 +74,7 @@ onMounted(async () => {
       model-status="Live2D 模型由桌宠窗口运行"
       :model-diagnostics="[]"
       :listener-state="bridge.listenerState.value"
+      :position-locked="bridge.desktopState.value.positionLocked"
       :shortcut-state="bridge.shortcutState.value"
       :desktop-mode="bridge.isDesktop.value"
       :autostart-available="bridge.autostartAvailable.value"
@@ -78,6 +84,7 @@ onMounted(async () => {
       @update="updateSettings"
       @recheck-permissions="bridge.recheckInputPermissions"
       @preview-key-bubble="bridge.previewKeyBubble"
+      @set-position-locked="setPositionLocked"
     />
   </main>
 </template>

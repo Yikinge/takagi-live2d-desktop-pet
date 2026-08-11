@@ -89,6 +89,7 @@ impl Default for ShortcutStatusPayload {
 struct DesktopStateSnapshot {
     interaction_paused: bool,
     click_through: bool,
+    position_locked: bool,
     always_on_top: bool,
     visible: bool,
     shortcut: ShortcutStatusPayload,
@@ -153,6 +154,7 @@ struct BackendState {
     permission_revoked_after_start: AtomicBool,
     interaction_paused: AtomicBool,
     click_through: AtomicBool,
+    position_locked: AtomicBool,
     always_on_top: AtomicBool,
     visible: AtomicBool,
     listener_lifecycle: Mutex<()>,
@@ -190,6 +192,7 @@ impl BackendState {
         DesktopStateSnapshot {
             interaction_paused: self.interaction_paused.load(Ordering::Acquire),
             click_through: self.click_through.load(Ordering::Acquire),
+            position_locked: self.position_locked.load(Ordering::Acquire),
             always_on_top: self.always_on_top.load(Ordering::Acquire),
             visible: self.visible.load(Ordering::Acquire),
             shortcut: lock_unpoisoned(&self.shortcut_status).clone(),
@@ -717,6 +720,9 @@ fn set_click_through_internal(
         .set_ignore_cursor_events(enabled)
         .map_err(|_| "无法更新鼠标穿透状态。".to_string())?;
     state.click_through.store(enabled, Ordering::Release);
+    if enabled {
+        state.position_locked.store(true, Ordering::Release);
+    }
     Ok(state.emit_desktop_snapshot(app))
 }
 
@@ -727,6 +733,29 @@ fn set_click_through(
     enabled: bool,
 ) -> Result<DesktopStateSnapshot, String> {
     set_click_through_internal(&app, state.inner(), enabled)
+}
+
+fn set_position_locked_internal(
+    app: &AppHandle,
+    state: &Arc<BackendState>,
+    locked: bool,
+) -> Result<DesktopStateSnapshot, String> {
+    let window = main_window(app)?;
+    window
+        .set_ignore_cursor_events(locked)
+        .map_err(|_| "无法切换桌宠位置移动模式。".to_string())?;
+    state.position_locked.store(locked, Ordering::Release);
+    state.click_through.store(locked, Ordering::Release);
+    Ok(state.emit_desktop_snapshot(app))
+}
+
+#[tauri::command]
+fn set_position_locked(
+    app: AppHandle,
+    state: State<'_, Arc<BackendState>>,
+    locked: bool,
+) -> Result<DesktopStateSnapshot, String> {
+    set_position_locked_internal(&app, state.inner(), locked)
 }
 
 #[tauri::command]
@@ -1062,6 +1091,7 @@ pub fn run() {
             get_listener_status,
             set_interaction_paused,
             set_click_through,
+            set_position_locked,
             set_always_on_top,
             set_main_window_visible,
             show_main_window,
@@ -1078,6 +1108,7 @@ pub fn run() {
                 let state = app.state::<Arc<BackendState>>();
                 if window.set_ignore_cursor_events(true).is_ok() {
                     state.click_through.store(true, Ordering::Release);
+                    state.position_locked.store(true, Ordering::Release);
                 } else {
                     emit_desktop_error(
                         app.handle(),

@@ -5,11 +5,11 @@ export const SETTINGS_VERSION = 3
 export const TAKAGI_MODEL_PATH = '/models/takagi/Takagi.model3.json'
 
 export const DEFAULT_SETTINGS: Readonly<PetSettings> = Object.freeze({
-  bubbleEnabled: true,
+  bubbleEnabled: false,
   clickThrough: true,
   sensitivity: 72,
   modelPath: TAKAGI_MODEL_PATH,
-  characterScale: 1,
+  characterScale: 0.6,
   alwaysOnTop: true,
   interactionPaused: false,
   autostartEnabled: false,
