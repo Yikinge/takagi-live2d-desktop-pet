@@ -893,7 +893,7 @@ export function useLive2D(
         MODEL_READY_TIMEOUT_MS,
         () => new Live2DAdapterError(
           'model-ready-timeout',
-          'Live2D 模型加载超时，已使用预览角色',
+          'Live2D 模型加载超时；为避免闪现旧画像，桌宠画面保持隐藏。',
         ),
         signal,
       )
@@ -901,7 +901,7 @@ export function useLive2D(
       if (!model.getModelCanvasSize()) {
         throw new Live2DAdapterError(
           'model-initialization-failed',
-          'Live2D 模型初始化失败，已使用预览角色',
+          'Live2D 模型初始化失败；为避免闪现旧画像，桌宠画面保持隐藏。',
         )
       }
 
@@ -941,7 +941,7 @@ export function useLive2D(
             'model-initialization-failed',
             reason instanceof Error
               ? `Live2D 加载失败：${reason.message}`
-              : 'Live2D 加载失败，已使用预览角色',
+              : 'Live2D 加载失败；为避免闪现旧画像，桌宠画面保持隐藏。',
           )
       addDiagnostic({
         code: error.code,

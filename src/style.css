@@ -48,6 +48,12 @@ button {
   background: radial-gradient(ellipse, rgb(68 30 26 / 20%), transparent 70%);
   content: '';
   filter: blur(5px);
+  opacity: 0;
+  transition: opacity 140ms ease;
+}
+
+.pet-window.pet-ready::after {
+  opacity: 1;
 }
 
 .drag-handle {
@@ -171,6 +177,12 @@ button {
   white-space: nowrap;
 }
 
+.pet-visual-stage {
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+}
+
 .live2d-canvas,
 .preview-pet {
   position: absolute;
@@ -181,13 +193,10 @@ button {
 
 .live2d-canvas {
   z-index: 4;
-  opacity: 0;
   pointer-events: none;
-  transition: opacity 280ms ease;
 }
 
-.live2d-canvas.visible {
-  opacity: 1;
+.pet-visual-stage.ready .live2d-canvas {
   pointer-events: auto;
 }
 

@@ -42,8 +42,8 @@ export function sanitizePetSettings(value: unknown): PetSettings {
     modelPath: TAKAGI_MODEL_PATH,
     characterScale: clampNumber(
       candidate.characterScale,
-      0.6,
-      1.6,
+      0.4,
+      1,
       DEFAULT_SETTINGS.characterScale,
     ),
     alwaysOnTop: booleanOr(

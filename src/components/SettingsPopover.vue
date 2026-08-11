@@ -168,8 +168,8 @@ function patch(current: PetSettings, value: Partial<PetSettings>) {
       </span>
       <input
         type="range"
-        min="0.6"
-        max="1.6"
+        min="0.4"
+        max="1"
         step="0.05"
         :value="settings.characterScale"
         @input="patch(settings, { characterScale: Number(($event.target as HTMLInputElement).value) })"

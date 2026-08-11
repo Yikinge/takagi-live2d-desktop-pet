@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import PreviewPet from './components/PreviewPet.vue'
 import { useDesktopBridge } from './composables/useDesktopBridge'
 import { useLive2D } from './composables/useLive2D'
 import {
@@ -9,6 +8,8 @@ import {
 } from './composables/petSettings'
 import { usePetBrain } from './composables/usePetBrain'
 import type { PetSettings } from './types'
+
+const BASE_CHARACTER_SCALE = 0.6
 
 const host = ref<HTMLElement | null>(null)
 const canvas = ref<HTMLCanvasElement | null>(null)
@@ -20,12 +21,18 @@ const brain = usePetBrain(() => settings.value.sensitivity)
 const bridge = useDesktopBridge(brain.handleDeviceEvent)
 const modelPath = computed(() => settings.value.modelPath)
 const characterScale = computed(() => settings.value.characterScale)
+const baseCharacterScale = computed(() => BASE_CHARACTER_SCALE)
+const characterStageStyle = computed(() => ({
+  transform: `scale(${(characterScale.value / BASE_CHARACTER_SCALE).toFixed(4)})`,
+}))
 const live2d = useLive2D(host, canvas, modelPath, {
   keyboardHand: brain.keyboardHand,
   mouseHand: brain.mouseHand,
   expression: brain.expression,
   longMotion: brain.longMotion,
-  scale: characterScale,
+  // Build the complete character at the approved 60% pose. App.vue then
+  // scales the assembled canvas and every PSD overlay as one visual group.
+  scale: baseCharacterScale,
   onPoke: brain.poke,
 })
 
@@ -42,11 +49,9 @@ const keyboardHandTouching = computed(() => {
     keyboard.backspacePress,
   ) > 0.16
 })
-const keyboardOverlayStageStyle = computed(() => ({
-  transform: live2d.loaded.value
-    ? `scale(${0.96 * characterScale.value})`
-    : 'scale(1)',
-}))
+const keyboardOverlayStageStyle = {
+  transform: `scale(${0.96 * BASE_CHARACTER_SCALE})`,
+}
 const frontHairHeadTransform = computed(() => {
   const pose = live2d.headPose.value
   const translateX = pose.x * 0.88
@@ -241,6 +246,7 @@ async function applyPersistedDesktopPreferences() {
   <main
     ref="host"
     class="pet-window"
+    :class="{ 'pet-ready': live2d.loaded.value }"
   >
     <Transition name="bubble">
       <div v-if="bubbleText" class="speech-bubble" role="status">
@@ -260,103 +266,103 @@ async function applyPersistedDesktopPreferences() {
       </div>
     </Transition>
 
-    <canvas
-      ref="canvas"
-      class="live2d-canvas"
-      :class="{ visible: live2d.loaded.value }"
-      aria-label="戳一下高木同学"
-      @click="brain.poke"
-    />
-    <PreviewPet
-      v-if="!live2d.loaded.value"
-      :action="brain.action.value"
-      :intensity="brain.intensity.value"
-      :keyboard-hand="brain.keyboardHand.value"
-      :mouse-hand="brain.mouseHand.value"
-      :expression="brain.expression.value"
-      @poke="brain.poke"
-    />
-
-    <svg
-      v-if="live2d.loaded.value"
-      class="t004-body-stage"
-      :style="keyboardOverlayStageStyle"
-      viewBox="0 0 1254 1254"
-      preserveAspectRatio="xMidYMid meet"
-      aria-hidden="true"
+    <div
+      class="pet-visual-stage"
+      :class="{ ready: live2d.loaded.value }"
+      :style="characterStageStyle"
     >
-      <image
-        class="t004-topwear"
-        href="/models/takagi/overlays/t004-topwear.png"
-        width="1254"
-        height="1254"
+      <canvas
+        ref="canvas"
+        class="live2d-canvas"
+        aria-label="戳一下高木同学"
+        @click="brain.poke"
       />
-    </svg>
 
-    <svg
+      <svg
+        v-if="live2d.loaded.value"
+        class="t004-body-stage"
+        :style="keyboardOverlayStageStyle"
+        viewBox="0 0 1254 1254"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+      >
+        <image
+          class="t004-topwear"
+          href="/models/takagi/overlays/t004-topwear.png"
+          width="1254"
+          height="1254"
+        />
+      </svg>
+
+      <svg
+        v-if="live2d.loaded.value"
+        class="t004-hair-stage"
+        :style="keyboardOverlayStageStyle"
+        viewBox="0 0 1254 1254"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+      >
+        <g :transform="frontHairHeadTransform">
+          <image
+            class="t004-front-hair"
+            transform="translate(0 14) translate(600 930) scale(1.12 1.22) translate(-600 -930)"
+            href="/models/takagi/overlays/t004-front-hair-unified.png"
+            width="1254"
+            height="1254"
+          />
+        </g>
+      </svg>
+
+      <svg
+        v-if="live2d.loaded.value"
+        class="t004-interaction-stage"
+        :style="keyboardOverlayStageStyle"
+        viewBox="0 0 1254 1254"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+      >
+        <image
+          class="t004-objects-base"
+          href="/models/takagi/overlays/t004-objects-base.png"
+          width="1254"
+          height="1254"
+        />
+        <g :transform="`translate(${keyboardTargetOffsetX} ${keyboardTargetOffsetY})`">
+          <image
+            class="t004-keyboard-hand idle"
+            :class="{ visible: !keyboardHandTouching }"
+            href="/models/takagi/overlays/t004-keyboard-hand-idle.png"
+            width="1254"
+            height="1254"
+          />
+        </g>
+        <g :transform="`translate(${keyboardShoulderOffsetX} ${keyboardShoulderOffsetY})`">
+          <image
+            class="t004-keyboard-arm active"
+            :class="{ visible: keyboardHandTouching }"
+            :transform="keyboardArmTransform"
+            href="/models/takagi/overlays/t004-keyboard-arm-active.png"
+            width="1254"
+            height="1254"
+          />
+        </g>
+        <g :transform="`translate(${mouseShoulderOffsetX} ${mouseShoulderOffsetY})`">
+          <image
+            class="t004-mouse-group"
+            :transform="mouseGroupTransform"
+            href="/models/takagi/overlays/t004-mouse-hand-and-device.png"
+            width="1254"
+            height="1254"
+          />
+        </g>
+      </svg>
+    </div>
+
+    <div
       v-if="live2d.loaded.value"
-      class="t004-hair-stage"
-      :style="keyboardOverlayStageStyle"
-      viewBox="0 0 1254 1254"
-      preserveAspectRatio="xMidYMid meet"
-      aria-hidden="true"
+      class="combo-pill"
+      :class="{ hot: brain.combo.value >= 12 }"
     >
-      <g :transform="frontHairHeadTransform">
-        <image
-          class="t004-front-hair"
-          transform="translate(0 14) translate(600 930) scale(1.12 1.22) translate(-600 -930)"
-          href="/models/takagi/overlays/t004-front-hair-unified.png"
-          width="1254"
-          height="1254"
-        />
-      </g>
-    </svg>
-
-    <svg
-      v-if="live2d.loaded.value"
-      class="t004-interaction-stage"
-      :style="keyboardOverlayStageStyle"
-      viewBox="0 0 1254 1254"
-      preserveAspectRatio="xMidYMid meet"
-      aria-hidden="true"
-    >
-      <image
-        class="t004-objects-base"
-        href="/models/takagi/overlays/t004-objects-base.png"
-        width="1254"
-        height="1254"
-      />
-      <g :transform="`translate(${keyboardTargetOffsetX} ${keyboardTargetOffsetY})`">
-        <image
-          class="t004-keyboard-hand idle"
-          :class="{ visible: !keyboardHandTouching }"
-          href="/models/takagi/overlays/t004-keyboard-hand-idle.png"
-          width="1254"
-          height="1254"
-        />
-      </g>
-      <g :transform="`translate(${keyboardShoulderOffsetX} ${keyboardShoulderOffsetY})`">
-        <image
-          class="t004-keyboard-arm active"
-          :class="{ visible: keyboardHandTouching }"
-          :transform="keyboardArmTransform"
-          href="/models/takagi/overlays/t004-keyboard-arm-active.png"
-          width="1254"
-          height="1254"
-        />
-      </g>
-      <g :transform="`translate(${mouseShoulderOffsetX} ${mouseShoulderOffsetY})`">
-        <image
-          class="t004-mouse-group"
-          :transform="mouseGroupTransform"
-          href="/models/takagi/overlays/t004-mouse-hand-and-device.png"
-          width="1254"
-          height="1254"
-        />
-      </g>
-    </svg>
-
-    <div class="combo-pill" :class="{ hot: brain.combo.value >= 12 }">
       <span class="combo-flame">✦</span>
       <strong>{{ brain.combo.value }}</strong>
       <small>COMBO</small>
@@ -373,7 +379,7 @@ async function applyPersistedDesktopPreferences() {
       <small>完成后请在设置窗口中点击“固定当前位置”</small>
     </button>
 
-    <div v-if="bridge.error.value" class="mode-hint">
+    <div v-if="live2d.loaded.value && bridge.error.value" class="mode-hint">
       {{ bridge.error.value }}
     </div>
   </main>
